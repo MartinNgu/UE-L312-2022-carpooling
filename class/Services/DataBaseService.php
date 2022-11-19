@@ -12,7 +12,7 @@ class DataBaseService
     const PORT = '3306';
     const DATABASE_NAME = 'carpooling';
     const MYSQL_USER = 'root';
-    const MYSQL_PASSWORD = 'password';
+    const MYSQL_PASSWORD = '';
 
     private $connection;
 
@@ -99,6 +99,83 @@ class DataBaseService
             'id' => $id,
         ];
         $sql = 'DELETE FROM users WHERE id = :id;';
+        $query = $this->connection->prepare($sql);
+        $isOk = $query->execute($data);
+
+        return $isOk;
+    }
+
+    /**
+     * Create an announce.
+     */
+    public function createAnnounce(string $nameannounce, string $car, DateTime $dateannounce, string $citystart, string $cityend): bool
+    {
+        $isOk = false;
+
+        $data = [
+            'nameannounce' => $nameannounce,
+            'car' => $car,
+            'dateannounce' => $dateannounce->format(DateTime::RFC3339),
+            'citystart' => $citystart,
+            'cityend' => $cityend,
+        ];
+        $sql = 'INSERT INTO announces (nameannounce, car, dateannounce, citystart, cityend) VALUES (:nameannounce, :car, :dateannounce, :citystart, :cityend)';
+        $query = $this->connection->prepare($sql);
+        $isOk = $query->execute($data);
+
+        return $isOk;
+    }
+
+    /**
+     * Return all announce.
+     */
+    public function getAnnounce(): array
+    {
+        $announces = [];
+
+        $sql = 'SELECT * FROM announces';
+        $query = $this->connection->query($sql);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        if (!empty($results)) {
+            $announces = $results;
+        }
+
+        return $announces;
+    }
+
+    /**
+     * Update an announce.
+     */
+    public function updateAnnounce(string $id, string $nameannounce, string $car, DateTime $dateannounce, string $citystart, string $cityend): bool
+    {
+        $isOk = false;
+
+        $data = [
+            'id' => $id,
+            'nameannounce' => $nameannounce,
+            'car' => $car,
+            'dateannounce' => $dateannounce->format(DateTime::RFC3339),
+            'citystart' => $citystart,
+            'cityend' => $cityend,
+        ];
+        $sql = 'UPDATE announces SET nameannounce = :nameannounce, car = :car, dateannounce = :dateannounce, citystart = :citystart, cityend = :cityend WHERE id = :id;';
+        $query = $this->connection->prepare($sql);
+        $isOk = $query->execute($data);
+
+        return $isOk;
+    }
+
+    /**
+     * Delete an user.
+     */
+    public function deleteAnnounce(string $id): bool
+    {
+        $isOk = false;
+
+        $data = [
+            'id' => $id,
+        ];
+        $sql = 'DELETE FROM announces WHERE id = :id;';
         $query = $this->connection->prepare($sql);
         $isOk = $query->execute($data);
 

@@ -8,10 +8,10 @@ $controller = new UsersController();
 echo $controller->deleteUser();
 ?>
 
-<p>Supression d'un utilisateur</p>
-<form method="post" action="users_delete.php" name ="userDeleteForm">
+<p>Supression d'une annonce</p>
+<form method="post" action="announce_delete.php" name ="announceDeleteForm">
     <label for="id">Id :</label>
     <input type="text" name="id">
     <br />
-    <input type="submit" value="Supprimer un utilisateur">
+    <input type="submit" value="Supprimer une annonce">
 </form>
