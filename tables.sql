@@ -12,16 +12,16 @@ INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `birthday`) VALUES
 (2, 'Albert', 'Dupond', 'sonemail@gmail.com', '1985-11-08'),
 (3, 'Thomas', 'Dumoulin', 'sonemail2@gmail.com', '1985-10-08');
 
-CREATE TABLE `announces` (
+CREATE TABLE `cars` (
   `id` int AUTO_INCREMENT NOT NULL,
-  `nameannounce` varchar(255) NOT NULL,
-  `car` varchar(255) NOT NULL,
-  `dateannounce` datetime NOT NULL,
-  `citystart` varchar(255) NOT NULL,
-  `cityend` varchar(255) NOT NULL,
+  `brand` varchar(255) NOT NULL,
+  `model` varchar(255) NOT NULL,
+  `powercar` int(255) NOT NULL,
+  `birth` int(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `announces` (`id`, `nameannounce`, `car`, `dateannounce`, `citystart`, `cityend`) VALUES
-(1, 'Robert', 'Ford', '2022-01-01', 'Paris', 'Lyon'),
-(2, 'Francis', 'Mercedes', '2022-02-02', 'Limoges', 'Vichy');
+INSERT INTO `cars` (`id`, `brand`, `model`, `powercar`, `birth`) VALUES
+(1, 'Opel', 'Corsa', '75', '2004'),
+(2, 'Opel', 'Insigna', '110', '2010'),
+(3, 'Opel', 'Astra', '90', '2012');
