@@ -166,7 +166,7 @@ class DataBaseService
     }
 
     /**
-     * Delete an user.
+     * Delete an announce.
      */
     public function deleteAnnounce(string $id): bool
     {
@@ -182,7 +182,7 @@ class DataBaseService
         return $isOk;
     }
 
-    /**
+        /**
      * Create a car.
      */
     public function createCar(string $brand, string $model, int $powercar, int $birth): bool
@@ -256,4 +256,82 @@ class DataBaseService
 
         return $isOk;
     }
+
+        /**
+     * Create a reservation.
+     */
+    public function createReservation(string $author, string $client, string $rescitystart, string $rescityend, DateTime $dateres): bool
+    {
+        $isOk = false;
+
+        $data = [
+            'author' => $author,
+            'client' => $client,
+            'rescitystart' => $rescitystart,
+            'rescityend' => $rescityend,
+            'dateres' => $dateres->format(DateTime::RFC3339),
+        ];
+        $sql = 'INSERT INTO reservations (author, client, rescitystart, rescityend, dateres) VALUES (:author, :client, :rescitystart, :rescityend, :dateres)';
+        $query = $this->connection->prepare($sql);
+        $isOk = $query->execute($data);
+
+        return $isOk;
+    }
+
+    /**
+     * Return all reservations.
+     */
+    public function getReservations(): array
+    {
+        $reservations = [];
+
+        $sql = 'SELECT * FROM reservations';
+        $query = $this->connection->query($sql);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        if (!empty($results)) {
+            $reservations = $results;
+        }
+
+        return $reservations;
+    }
+
+    /**
+     * Update a reservation.
+     */
+    public function updateReservation(string $id, string $author, string $client, string $rescitystart, string $rescityend, DateTime $dateres): bool
+    {
+        $isOk = false;
+
+        $data = [
+            'id' => $id,
+            'author' => $author,
+            'client' => $client,
+            'rescitystart' => $rescitystart,
+            'rescityend' => $rescityend,
+            'dateres' => $dateres->format(DateTime::RFC3339),
+        ];
+        $sql = 'UPDATE reservations SET author = :author, client = :client, rescitystart = :rescitystart, rescityend = :rescityend, dateres = :dateres WHERE id = :id;';
+        $query = $this->connection->prepare($sql);
+        $isOk = $query->execute($data);
+
+        return $isOk;
+    }
+
+    /**
+     * Delete a reservation.
+     */
+    public function deleteReservation(string $id): bool
+    {
+        $isOk = false;
+
+        $data = [
+            'id' => $id,
+        ];
+        $sql = 'DELETE FROM reservations WHERE id = :id;';
+        $query = $this->connection->prepare($sql);
+        $isOk = $query->execute($data);
+
+        return $isOk;
+    }
+
 }
