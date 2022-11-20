@@ -182,3 +182,79 @@ class DataBaseService
         return $isOk;
     }
 }
+
+    /**
+     * Create a car.
+     */
+    public function createCar(string $brand, string $model, int $powercar, int $birth): bool
+    {
+        $isOk = false;
+
+        $data = [
+            'brand' => $brand,
+            'model' => $model,
+            'powercar' => $powercar,
+            'birth' => $birth,
+        ];
+        $sql = 'INSERT INTO cars (brand, model, powercar, birth) VALUES (:brand, :model, :powercar, :birth)';
+        $query = $this->connection->prepare($sql);
+        $isOk = $query->execute($data);
+
+        return $isOk;
+    }
+
+    /**
+     * Return all cars.
+     */
+    public function getCars(): array
+    {
+        $cars = [];
+
+        $sql = 'SELECT * FROM cars';
+        $query = $this->connection->query($sql);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        if (!empty($results)) {
+            $cars = $results;
+        }
+
+        return $cars;
+    }
+
+    /**
+     * Update a car.
+     */
+    public function updateCar(string $id, string $brand, string $model, int $powercar, int $birth): bool
+    {
+        $isOk = false;
+
+        $data = [
+            'id' => $id,
+            'brand' => $brand,
+            'model' => $model,
+            'powercar' => $powercar,
+            'birth' => $birth,
+        ];
+        $sql = 'UPDATE cars SET brand = :brand, model = :model, powercar = :powercar, birth = :birth WHERE id = :id;';
+        $query = $this->connection->prepare($sql);
+        $isOk = $query->execute($data);
+
+        return $isOk;
+    }
+
+    /**
+     * Delete a car.
+     */
+    public function deleteCar(string $id): bool
+    {
+        $isOk = false;
+
+        $data = [
+            'id' => $id,
+        ];
+        $sql = 'DELETE FROM cars WHERE id = :id;';
+        $query = $this->connection->prepare($sql);
+        $isOk = $query->execute($data);
+
+        return $isOk;
+    }
+}
