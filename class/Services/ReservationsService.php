@@ -44,7 +44,7 @@ class ReservationsService
                 $reservation->setRescityend($reservationsDTO['rescityend']);
                 $dateres = new DateTime($reservationsDTO['dateres']);
                 if ($dateres !== false) {
-                    $reservation->setbirthday($dateres);
+                    $reservation->setDateres($dateres);
                 }
                 $reservations[] = $reservation;
             }

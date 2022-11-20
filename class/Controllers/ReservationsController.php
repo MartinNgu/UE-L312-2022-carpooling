@@ -54,11 +54,11 @@ class ReservationsController
         foreach ($reservations as $reservation) {
             $html .=
                 '#' . $reservation->getId() . ' ' .
-                $user->getAuthor() . ' ' .
-                $user->getClient() . ' ' .
-                $user->getRescitystart() . ' ' .
-                $user->getRescitystart() . ' ' .
-                $user->getDateres()->format('d-m-Y') . '<br />';
+                $reservation->getAuthor() . ' ' .
+                $reservation->getClient() . ' ' .
+                $reservation->getRescitystart() . ' ' .
+                $reservation->getRescityend() . ' ' .
+                $reservation->getDateres()->format('d-m-Y') . '<br />';
         }
 
         return $html;

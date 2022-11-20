@@ -53,6 +53,16 @@ class Reservation
         $this->rescitystart = $rescitystart;
     }
 
+    public function getRescityend(): string
+    {
+        return $this->rescityend;
+    }
+
+    public function setRescityend($rescityend): void
+    {
+        $this->rescityend = $rescityend;
+    }
+
     public function getDateres(): DateTime
     {
         return $this->dateres;
