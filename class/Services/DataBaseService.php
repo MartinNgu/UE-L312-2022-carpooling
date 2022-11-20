@@ -181,7 +181,6 @@ class DataBaseService
 
         return $isOk;
     }
-}
 
     /**
      * Create a car.
