@@ -332,4 +332,47 @@ class DataBaseService
         return $announceCars;
     }
 
+        /**
+     * Create relation bewteen an announce and his reservation.
+     */
+    public function setAnnounceReservation(string $announceId, string $reservationId): bool
+    {
+        $isOk = false;
+
+        $data = [
+            'announceId' => $announceId,
+            'reservationId' => $reservationId,
+        ];
+        $sql = 'INSERT INTO announces_reservationss (announce_id, reservation_id) VALUES (:announceId, :reservationId)';
+        $query = $this->connection->prepare($sql);
+        $isOk = $query->execute($data);
+
+        return $isOk;
+    }
+
+    /**
+     * Get announce of given reservation id.
+     */
+    public function getAnnounceReservations(string $announceId): array
+    {
+        $announceUsers = [];
+
+        $data = [
+            'announceId' => $announceId,
+        ];
+        $sql = '
+            SELECT c.*
+            FROM reservations as c
+            LEFT JOIN announces_reservations as uc ON uc.reservations_id = c.id
+            WHERE uc.announce_id = :announceId';
+        $query = $this->connection->prepare($sql);
+        $query->execute($data);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        if (!empty($results)) {
+            $announceReservations = $results;
+        }
+
+        return $announceReservations;
+    }
+
 }

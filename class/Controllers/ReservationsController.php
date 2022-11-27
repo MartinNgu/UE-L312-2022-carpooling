@@ -42,6 +42,19 @@ class ReservationsController
             } else {
                 $html = 'Erreur lors de la réservation.';
             }
+
+             // Create the announces reservation relations :
+             $isOk = true;
+             if (!empty($_POST['announces'])) {
+                 foreach ($_POST['announces'] as $carId) {
+                     $isOk = $announcesService->setAnnounceReservation($announceId, $reservationId);
+                 }
+             }
+             if ($announcesId && $isOk) {
+                 $html = 'Utilisateur créé avec succès.';
+             } else {
+                 $html = 'Erreur lors de la création de l\'utilisateur.';
+             }           
         }
 
         return $html;

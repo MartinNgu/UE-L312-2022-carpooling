@@ -13,6 +13,7 @@ class Reservation
     private $rescityend;
     private $dateres;
     private $users;
+    private $announces;
 
     public function getId(): string
     {
@@ -82,6 +83,18 @@ class Reservation
     public function setUsers(array $users)
     {
         $this->users = $users;
+
+        return $this;
+    }
+
+    public function getannounces(): int
+    {
+        return $this->announces;
+    }
+
+    public function setannounces(int $announces): self
+    {
+        $this->announces = $announces;
 
         return $this;
     }

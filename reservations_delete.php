@@ -15,3 +15,7 @@ echo $controller->deleteReservation();
     <br />
     <input type="submit" value="Supprimer une réservation">
 </form>
+
+<form method="post" action="index.php">
+	<input type="submit" value="revenir en arrière">
+</form>

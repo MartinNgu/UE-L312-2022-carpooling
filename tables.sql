@@ -94,3 +94,12 @@ INSERT INTO `users_reservations` (`user_id`, `reservation_id`) VALUES
 (1, 2),
 (2, 1),
 (2, 2);
+
+CREATE TABLE `announces_reservations` (
+  `announce_id` int NOT NULL,
+  `reservation_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+INSERT INTO `announces_reservations` (`announce_id`, `reservation_id`) VALUES
+(1, 1),
+(2, 2),

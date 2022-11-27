@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Entities\Reservation;
 use App\Entities\Car;
 use App\Entities\User;
+use App\Entities\announce;
 use DateTime;
 
 class ReservationsService
@@ -82,4 +83,42 @@ class ReservationsService
     //
     //     return $isOk;
     // }
+
+    /**
+     * Create relation bewteen an announce and his reservationr.
+     */
+    public function setAnnounceReservation(string $announceId, string $reservationId): bool
+    {
+        $isOk = false;
+
+        $dataBaseService = new DataBaseService();
+        $isOk = $dataBaseService->setAnnounceReservation($announceId, $reservationId);
+
+        return $isOk;
+    }
+
+    /**
+     * Get cars of given user id.
+     */
+    public function getAnnounceReservations(string $announceId): array
+    {
+        $announceReservations = [];
+
+        $dataBaseService = new DataBaseService();
+
+        // Get relation users and cars :
+        $announcesreservationsDTO = $dataBaseService->getAnnounceReservation($announceId);
+        if (!empty($announcesreservationsDTO)) {
+            foreach ($announcesreservationsDTO as $annoucereservationDTO) {
+                $reservation = new Reservation();
+                $reservation->setId($annoucereservationDTO['id']);
+                $reservation->setRescitystart($annoucereservationDTO['rescitystart']);
+                $reservation->setRescityend($annoucereservationDTO['rescityend']);
+                $reservation->setDateres($annoucereservationDTO['dateres']);
+                $announcereservations[] = $reservation;
+            }
+        }
+
+        return $announceReservations;
+    }
 }

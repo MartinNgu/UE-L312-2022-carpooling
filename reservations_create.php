@@ -3,6 +3,7 @@
 use App\Controllers\ReservationsController;
 use App\Services\ReservationsService;
 use App\Services\UsersService;
+use App\Services\AnnouncesService;
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -41,5 +42,14 @@ $users = $usersService->getUsers();
     <label for="dateres">Date de réservation au format dd-mm-yyyy :</label>
     <input type="text" name="dateres">
     <br />
+    <?php foreach ($announces as $announce): ?>
+        <?php $announceId = $announce->getId(); ?>
+        <input type="checkbox" name="announces[]" value="<?php echo $announce->getId(); ?>"><?php echo $announceId; ?>
+        <br />
+    <?php endforeach; ?>
     <input type="submit" value="Ajouter une réservation">
+</form>
+
+<form method="post" action="index.php">
+	<input type="submit" value="revenir en arrière">
 </form>
