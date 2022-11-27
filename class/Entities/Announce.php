@@ -4,14 +4,14 @@ namespace App\Entities;
 
 use DateTime;
 
-class Announce
+class announce
 {
     private $id;
-    private $nameannounce;
-    private $car;
+    private $cars;
     private $dateannounce;
     private $citystart;
     private $cityend;
+    private $users;
 
     public function getId(): string
     {
@@ -23,55 +23,57 @@ class Announce
         $this->id = $id;
     }
 
-    public function getNameAnnounce(): string
-    {
-        return $this->nameannounce;
-    }
-
-    public function setNameAnnounce(string $nameannounce): void
-    {
-        $this->nameannounce = $nameannounce;
-    }
-
-    public function getCar(): string
-    {
-        return $this->car;
-    }
-
-    public function setCar(string $car): void
-    {
-        $this->car = $car;
-    }
-
-    public function getDateAnnounce(): DateTime
+    public function getDateannounce(): DateTime
     {
         return $this->dateannounce;
     }
 
-    public function setDateAnnounce(DateTime $dateannounce): void
+    public function setDateannounce(DateTime $dateannounce): void
     {
         $this->dateannounce = $dateannounce;
     }
 
-    
-    public function getCityStart(): string
+    public function getCitystart(): string
     {
         return $this->citystart;
     }
 
-    public function setCityStart(string $citystart): void
+    public function setCitystart($citystart): void
     {
         $this->citystart = $citystart;
     }
 
-    
-    public function getCityEnd(): string
+    public function getCityend(): string
     {
         return $this->cityend;
     }
 
-    public function setCityEnd(string $cityend): void
+    public function setCityend($cityend): void
     {
         $this->cityend = $cityend;
+    }
+
+    public function getUsers(): ?array
+    {
+        return $this->users;
+    }
+
+    public function setUsers(array $users)
+    {
+        $this->users = $users;
+
+        return $this;
+    }
+
+    public function getCars(): ?array
+    {
+        return $this->cars;
+    }
+
+    public function setCars(array $cars)
+    {
+        $this->cars = $cars;
+
+        return $this;
     }
 }

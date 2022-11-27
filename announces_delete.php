@@ -1,11 +1,11 @@
 <?php
 
-use App\Controllers\AnnouncesController;
+use App\Controllers\announcesController;
 
 require __DIR__ . '/vendor/autoload.php';
 
-$controller = new AnnouncesController();
-echo $controller->deleteAnnounce();
+$controller = new announcesController();
+echo $controller->deleteannounce();
 ?>
 
 <p>Supression d'un utilisateur</p>
@@ -14,4 +14,8 @@ echo $controller->deleteAnnounce();
     <input type="text" name="id">
     <br />
     <input type="submit" value="Supprimer un utilisateur">
+</form>
+
+<form method="post" action="index.php">
+	<input type="submit" value="revenir en arrière">
 </form>

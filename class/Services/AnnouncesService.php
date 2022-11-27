@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Entities\Announce;
+use App\Entities\User;
+use App\Entities\Car;
 use DateTime;
 
 class AnnouncesService
@@ -10,60 +12,146 @@ class AnnouncesService
     /**
      * Create or update an announce.
      */
-    public function setAnnounce(?string $id, string $nameannounce, string $car, string $dateannounce, string $citystart, string $cityend): bool
+    public function setannounce(?string $id, string $dateannounce, string $citystart, string $cityend): bool
     {
-        $isOk = false;
+        $announceId = '';
 
         $dataBaseService = new DataBaseService();
         $dateannounceDateTime = new DateTime($dateannounce);
         if (empty($id)) {
-            $isOk = $dataBaseService->createAnnounce($nameannounce, $car, $dateannounceDateTime, $citystart, $cityend);
+            $announceId = $dataBaseService->createannounce($dateannounceDateTime, $citystart, $cityend);
         } else {
-            $isOk = $dataBaseService->updateAnnounce($id, $nameannounce, $car, $dateannounceDateTime, $citystart, $cityend);
+            $dataBaseService->updateannounce($id, $dateannounceDateTime, $citystart, $cityend);
+            $announceId = $id;
         }
 
-        return $isOk;
+        return $announceId;
     }
 
     /**
-     * Return all announce.
+     * Return all announces.
      */
-    public function getAnnounce(): array
+    public function getannounces(): array
     {
-        $Announces = [];
+        $announces = [];
 
         $dataBaseService = new DataBaseService();
-        $AnnouncesDTO = $dataBaseService->getAnnounce();
-        if (!empty($AnnouncesDTO)) {
-            foreach ($AnnouncesDTO as $AnnounceDTO) {
-                $Announce = new Announce();
-                $Announce->setId($AnnounceDTO['id']);
-                $Announce->setNameAnnounce($AnnounceDTO['nameannounce']);
-                $Announce->setCar($AnnounceDTO['car']);
-                $dateannounce = new DateTime($AnnounceDTO['dateannounce']);
-                if ($dateannounce !== false) {
-                    $Announce->setdateannounce($dateannounce);
+        $announcesDTO = $dataBaseService->getannounces();
+        if (!empty($announcesDTO)) {
+            foreach ($announcesDTO as $announceDTO) {
+                $announce = new announce();
+                $announce->setId($announceDTO['id']);
+                $date = new DateTime($announceDTO['dateannounce']);
+                if ($date !== false) {
+                    $announce->setdateannounce($date);
                 }
-                $Announce->setCityStart($AnnounceDTO['citystart']);
-                $Announce->setCityEnd($AnnounceDTO['cityend']);
-                
-                $Announces[] = $Announce;
+                $announce->setCitystart($announceDTO['citystart']);
+                $announce->setCityend($announceDTO['cityend']);
+
+                // Get users of this announce :
+                $users = $this->getAnnounceUsers($announceDTO['id']);
+                $announce->setUsers($users);
+
+                $announces[] = $announce;
+
+                // Get cars of this announce :
+                $cars = $this->getAnnounceCars($announceDTO['id']);
+                $announce->setCars($cars);
+
+                $announces[] = $announce;
             }
         }
 
-        return $Announces;
+        return $announces;
     }
 
     /**
-     * Delete an Announce.
+     * Delete an announce.
      */
-    public function deleteAnnounce(string $id): bool
+    public function deleteannounce(string $id): bool
     {
         $isOk = false;
 
         $dataBaseService = new DataBaseService();
-        $isOk = $dataBaseService->deleteAnnounce($id);
+        $isOk = $dataBaseService->deleteannounce($id);
 
         return $isOk;
+    }
+
+        /**
+     * Create relation between an announce and his user.
+     */
+    public function setAnnounceUser(string $announceId, string $userId): bool
+    {
+        $isOk = false;
+
+        $dataBaseService = new DataBaseService();
+        $isOk = $dataBaseService->setAnnounceUser($announceId, $userId);
+
+        return $isOk;
+    }
+
+    /**
+     * Get user of given announce id.
+     */
+    public function getAnnounceUsers(string $announceId): array
+    {
+        $announceUsers = [];
+
+        $dataBaseService = new DataBaseService();
+
+        // Get relation announces and users :
+        $announcesUsersDTO = $dataBaseService->getAnnounceUsers($announceId);
+        if (!empty($announcesUsersDTO)) {
+            foreach ($announcesUsersDTO as $announceUserDTO) {
+                $user = new User();
+                $user->setId($announceUserDTO['id']);
+                $user->setFirstname($announceUserDTO['firstname']);
+                $user->setLastname($announceUserDTO['lastname']);
+                $user->setemail($announceUserDTO['email']);
+                $announceUsers[] = $user;
+            }
+        }
+
+        return $announceUsers;
+    }
+
+      /**
+     * Create relation bewteen an announce and his car.
+     */
+    public function setAnnounceCar(string $announceId, string $carId): bool
+    {
+        $isOk = false;
+
+        $dataBaseService = new DataBaseService();
+        $isOk = $dataBaseService->setAnnounceCar($announceId, $carId);
+
+        return $isOk;
+    }
+
+    /**
+     * Get cars of given announce id.
+     */
+    public function getAnnounceCars(string $announceId): array
+    {
+        $announceCars = [];
+
+        $dataBaseService = new DataBaseService();
+
+        // Get relation announces and cars :
+        $announcesCarsDTO = $dataBaseService->getAnnounceCars($announceId);
+        if (!empty($announcesCarsDTO)) {
+            foreach ($announcesCarsDTO as $announceCarDTO) {
+                $car = new Car();
+                $car->setId($announceCarDTO['id']);
+                $car->setBrand($announceCarDTO['brand']);
+                $car->setModel($announceCarDTO['model']);
+                $car->setColor($announceCarDTO['color']);
+                $car->setNbrSlots($announceCarDTO['nbrSlots']);
+                $announceCars[] = $car;
+            }
+        }
+
+        return $announceCars;
     }
 }
