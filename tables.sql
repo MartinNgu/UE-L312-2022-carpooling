@@ -70,3 +70,27 @@ CREATE TABLE announces_cars (
 INSERT INTO `announces_cars` (`announce_id`, `car_id`) VALUES
 (1, 1),
 (2, 2);
+
+CREATE TABLE `reservations` (
+  `id` int NOT NULL,
+  `author` varchar(255) NOT NULL,
+  `client` varchar(255) NOT NULL,
+  `rescitystart` varchar(255) NOT NULL,
+  `rescityend` varchar(255) NOT NULL,
+  `dateres` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+INSERT INTO `reservations` (`id`, `author`, `client`, `rescitystart`, `rescityend`, `dateres`) VALUES
+(1, 'Emilien', 'Martin', 'Mormaison', 'Montluçon', '2022-11-27 15:13:11'),
+(2, 'Clement', 'Theo', 'Nantes', 'Paris', '2020-10-12 00:00:00');
+
+CREATE TABLE `users_reservations` (
+  `user_id` int NOT NULL,
+  `reservation_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+INSERT INTO `users_reservations` (`user_id`, `reservation_id`) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 2);
